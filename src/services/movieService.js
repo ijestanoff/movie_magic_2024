@@ -1,10 +1,19 @@
-const movies = [];
+const movies = [{
+    _id: 1,
+    title: 'Jungle Cuise',
+    genre: 'Adventure',
+    director: 'Spilberg',
+    date: '2024',
+    imageUrl: '/img/jungle-cruise.jpeg',
+    rating: 5,
+    description: 'Dreaming about saving countless lives and having another adventure, ..',
+}];
 
 exports.getAll = () => {
     return movies.slice();
-}
+};
 
 exports.create = (movieData) => {
-    console.log(movieData);
+    movieData._id = movies[movies.length - 1]._id + 1;
     movies.push(movieData);
 };
