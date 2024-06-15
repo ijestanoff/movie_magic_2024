@@ -2,13 +2,20 @@ const router = require('express').Router();
 
 const movieService = require('../services/movieService');
 router.get('/create', (req, res) => {
-    res.render('create'); 
+    res.render('create');
 });
 
-router.post('/create', (req, res) => {
+router.post('/create', async (req, res) => {
     const newMovie = req.body;
-    movieService.create(newMovie);
-    res.redirect('/');
+    try {
+        await movieService.create(newMovie);
+        res.redirect('/');
+    } catch (error) {
+        console.log(error.message);
+        //res.status(400).end();
+        res.redirect('/create');
+    }
+
 });
 
 router.get('/movies/:movieId', (req, res) => {
@@ -17,7 +24,7 @@ router.get('/movies/:movieId', (req, res) => {
 
     movie.ratingStars = new Array(Number(movie.rating)).fill(true);
     //movie.ratingStars = '&#x2605; '.repeat(movie.rating);
-    
+
     res.render('details', { movie });
 });
 

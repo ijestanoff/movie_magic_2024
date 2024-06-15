@@ -1,3 +1,5 @@
+const Movie = require('../models/Movie');
+
 const movies = [{
     _id: 1,
     title: 'Jungle Cuise',
@@ -37,6 +39,7 @@ exports.getOne = (movieId) => {
 };
 
 exports.create = (movieData) => {
-    movieData._id = movies[movies.length - 1]._id + 1;
-    movies.push(movieData);
+    return Movie.create(movieData); 
+    // movieData._id = movies[movies.length - 1]._id + 1;
+    // movies.push(movieData);
 };
