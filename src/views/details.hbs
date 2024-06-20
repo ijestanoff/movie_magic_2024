@@ -10,8 +10,9 @@
                     </div>
                     <div class="second-info">
                         <p class="card-year">Year: {{movie.year}}</p>
-                        <p class="card-ranking">Rating: <span id="stars">{{#each movie.ratingStars}} &#x2605;
-                                {{/each}}</span></p>
+                        <p class="card-ranking">
+                            Rating: <span id="stars">{{#each movie.ratingStars}} &#x2605; {{/each}}</span>
+                        </p>
                     </div>
                 </div>
                 <p class="disc">Description: {{movie.description}}</p>
@@ -44,7 +45,7 @@
             <div class="no-cast">
                 <p>There are no casts added yet...</p>
             </div>
-        </div> 
+        </div>
         {{/each}}
     </div>
 </section>
