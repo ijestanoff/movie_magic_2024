@@ -1,3 +1,4 @@
+const util = require('util');
 const jwt = require('jsonwebtoken');
 
 function sign(payload, secretOrPrivateKey, options = {}) {
@@ -13,6 +14,11 @@ function sign(payload, secretOrPrivateKey, options = {}) {
     return promise;
 }
 
+// migrate from callback to promise
+const verify = util.promisify(jwt.verify); //migrate function verify and turn to promise version
+                                            
+
 module.exports = {
     sign,
+    verify,
 };
