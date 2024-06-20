@@ -7,11 +7,12 @@ const { isAuth } = require('../middlewares/authMiddleware');
 router.get('/movies/:movieId', async (req, res) => {
     const movieId = req.params.movieId;
     const movie = await movieService.getOne(movieId).lean();
+    const isOwner = movie.owner == req.user._id;
 
     movie.ratingStars = new Array(Number(movie.rating)).fill(true);
     //movie.ratingStars = '&#x2605; '.repeat(movie.rating);
 
-    res.render('movie/details', { movie });
+    res.render('movie/details', { movie, isOwner });
 });
 
 router.get('/create', isAuth, (req, res) => {
@@ -35,7 +36,7 @@ router.post('/create', isAuth, async (req, res) => {
         //res.status(400).end();
         res.redirect('/create');
     }
-    
+
 });
 
 
@@ -55,7 +56,7 @@ router.post('/movies/:movieId/attach', isAuth, async (req, res) => {
 });
 
 router.get('/movies/:movieId/edit', isAuth, async (req, res) => {
-    
+
     const movie = await movieService.getOne(req.params.movieId).lean();
     res.render('movie/edit', { movie });
 });
