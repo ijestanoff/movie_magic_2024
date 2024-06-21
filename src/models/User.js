@@ -1,4 +1,4 @@
-const { Schema, model, MongooseError} = require ('mongoose');
+const { Schema, model, MongooseError } = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
@@ -7,20 +7,24 @@ const userSchema = new Schema({
         required: true,
         lowercase: true,
         unique: true,
+        match: [/@[a-zA-Z0-9]+\.[a-zA-Z0-9]+&/, 'Invalid email'],
+        minLength: [10,'Email should be at least 10 characters'],
     },
     password: {
         type: String,
+        match: [/^[a-zA-Z0-9]+&/,'Password should be alphanumeric'],
+        minLength: 6,
         required: true,
     },
 });
 
-userSchema.pre('save', async function() {
+userSchema.pre('save', async function () {
     const hash = await bcrypt.hash(this.password, 12);
     this.password = hash;
 });
 
 userSchema.virtual('rePassword')
-    .set(function(value) {
+    .set(function (value) {
         //Validate
         if (value !== this.password) {
             throw new MongooseError('Pasword missmatch');
