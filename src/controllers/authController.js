@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { MongooseError } = require('mongoose');
 
 const authService = require('../services/authService');
 router.get('/register', (req, res) => {
@@ -12,6 +13,7 @@ router.post('/register', async (req, res) => {
         await authService.register(userData);
         res.redirect('/auth/login');
     } catch (error) {
+        console.log(error instanceof MongooseError);
         res.render('auth/register', {error: error.message});
     }
 });
